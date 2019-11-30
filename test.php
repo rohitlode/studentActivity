@@ -28,50 +28,35 @@ else {
 </head>
 
 <body style="margin: 0;padding: 0;font-family: sans-serif; height:100%; width:100%" class="purple-gradient">
-  <nav class="navbar navbar-expand-md bg-dark navbar-dark">
-    <!-- Brand -->
-    <a class="navbar-brand" href="index.php"><i class="fas fa-gift"></i>&nbsp; Student Activity</a>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<!-- Brand -->
+		<a class="navbar-brand" href="main.php">&nbsp; Student Activity</a>
 
-    <!-- Toggler/collapsibe Button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+		<!-- Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
 
-    <!-- Navbar links -->
-    <div class="collapse navbar-collapse" id="collapsibleNavbar">
-      <ul class="navbar-nav ml-auto">
-  			<li class="nav-item dropdown">
-  	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  	         Search
-  	        </a>
-  	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-  	          <a class="dropdown-item" href="people.php">People Details</a>
-  	          <a class="dropdown-item" href="roommate.php">Rommate</a>
-  	          <a class="dropdown-item" href="test.php">Events & Activities</a>
-  	        </div>
-  	      </li>
-  			<li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Purchase
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-            <a class="dropdown-item" href="mealplan.php">Meal Plan</a>
-            <a class="dropdown-item" href="busTickets.php">Bus Tickets</a>
-            <a class="dropdown-item" href="textbook.php">Textbooks</a>
-          </div>
-        </li>
-  			<li class="nav-item dropdown">
-  					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-  					 Account
-  					</a>
-  					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-  						<a class="dropdown-item" href="updateinformation.php">Details</a>
-  						<a class="dropdown-item" href="logout.php">Logout</a>
-  					</div>
-  				</li>
-      </ul>
-    </div>
-  </nav>
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item active">
+				<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						 Account
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="orderhistory.php">Order History</a>
+							<a class="dropdown-item" href="updateinformation.php">Details</a>
+							<a class="dropdown-item" href="contact.php">Contact Us</a>
+							<a class="dropdown-item" href="logout.php">Logout</a>
+						</div>
+					</li>
+			</ul>
+		</div>
+	</nav>
   </header>
   <!--Main Navigation-->
 
@@ -135,8 +120,8 @@ else {
       <!--Section: Cards-->
       <section id="section" class="text-center" style="display: none;">
           <!--Grid column-->
-          <div id="secDiv" class="">
-            <div id="disp" class="col-md-6 mb-4">
+          <div id="secDiv" class="" style="width: 100%; height: 100%">
+            <div id="disp" class="col-md-6 mb-4" style="width: 100%; height: 100%;">
 
               <!--Card-->
 
@@ -252,7 +237,7 @@ function renderBookmark(e){
           success: function(response){
             console.log(response);
             $("#section").show();
-            $("#disp").replaceWith(response);
+            $("#disp").html(response);
           }
         })
       })

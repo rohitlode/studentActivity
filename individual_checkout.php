@@ -1,5 +1,12 @@
-<?php session_start();
-  include("index.php");
+<?php
+session_start();
+$loginid = $_SESSION['loginid'];
+if(isset($_SESSION['loginid'])){
+
+}
+else {
+	header("location: login.php");
+}
  ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
@@ -10,7 +17,38 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.7.6/css/mdb.min.css" />
   </head>
   <body>
+		<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		  <!-- Brand -->
+		  <a class="navbar-brand" href="main.php">&nbsp; Student Activity</a>
 
+		  <!-- Toggler/collapsibe Button -->
+		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+		    <span class="navbar-toggler-icon"></span>
+		  </button>
+
+		  <!-- Navbar links -->
+		  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+		    <ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+					<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
+					</li>
+					<li class="nav-item">
+							<a class="nav-link" onclick="goToCheck(this)" href="#">Checkout</a>
+					</li>
+					<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							 Account
+							</a>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+								<a class="dropdown-item" href="orderhistory.php">Order History</a>
+								<a class="dropdown-item" href="updateinformation.php">Details</a>
+								<a class="dropdown-item" href="contact.php">Contact Us</a>
+								<a class="dropdown-item" href="logout.php">Logout</a>
+							</div>
+						</li>
+		    </ul>
+		  </div>
+		</nav>
 <!--Main layout-->
 <main class="mt-5 pt-4">
   <div class="container wow fadeIn">
@@ -59,14 +97,6 @@
 
             </div>
             <!--Grid row-->
-
-            <!--Username-->
-            <div class="md-form input-group pl-0 mb-5">
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon1">@</span>
-              </div>
-              <input type="text" class="form-control py-0" placeholder="Username" aria-describedby="basic-addon1">
-            </div>
 
             <!--email-->
             <div class="md-form mb-5">
@@ -138,19 +168,6 @@
             </div>
             <!--Grid row-->
 
-            <!-- <hr>
-
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="same-address">
-              <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-            </div>
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="save-info">
-              <label class="custom-control-label" for="save-info">Save this information for next time</label>
-            </div>
-
-            <hr> -->
-
             <div class="d-block my-3">
               <div class="custom-control custom-radio">
                 <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" value="Credit Card" checked required>
@@ -217,7 +234,10 @@
           <span class="text-muted">Your cart</span>
           <span id="counter" class="badge badge-secondary badge-pill">3</span>
         </h4>
-
+				<div style="display: <?php if(isset($_SESSION['showAlert'])){ echo $_SESSION['showAlert']; } else{ echo 'none'; } unset($_SESSION['showAlert'])?>;" class="alert alert-success alert-dismissible mt-3">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+					<strong><?php if(isset($_SESSION['message'])){ echo $_SESSION['message'];} unset($_SESSION['message']) ?></strong>
+				</div>
         <!-- Cart -->
         <?php
     			include 'config.php';
@@ -248,57 +268,82 @@
               <small class="text-muted">x<?=$row['qty'] ?></small>
             </div>
             <span class="text-muted">$<?= $row['product_price'] ?></span>
+						<a href="action.php?remove=<?= $row['id'] ?>&type=<?= $_GET['type']?>" class=""><i class="fas fa-trash-alt" onclick="return confirm('Do you want to clear this product in your cart?')"></i></a>
           </li>
         <?php endwhile;
         $allIds = implode(",",$ids);
         $allProducts = implode(",",$products);
         ?>
-          <!-- <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="my-0">Second product</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$8</span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between lh-condensed">
-            <div>
-              <h6 class="my-0">Third item</h6>
-              <small class="text-muted">Brief description</small>
-            </div>
-            <span class="text-muted">$5</span>
-          </li> -->
-          <?php if(explode(" ",$_GET['name'])[0]=="Semester"):
+          <?php include 'config.php';
+					if(explode(" ",$_GET['name'])[0]=="meal"):
             // echo explode(" ",$_POST['name'])[0];
+						$sql = ("select * from cart where userid='$loginid' and type='meal' and product_name='Semester Plan'");
+						$chc = mysqli_query($conn, $sql);
+						$chck = mysqli_num_rows($chc);
+						if($chck>0):
              ?>
-          <li class="list-group-item d-flex justify-content-between bg-light">
-            <div class="text-success">
-              <h6 class="my-0">Discount</h6>
-              <small><?= explode(" ",$_GET['name'])[0];?></small>
-            </div>
-            <span class="text-success">-<?=$total*(15/100)  ?></span>
-          </li>
-          <li class="list-group-item d-flex justify-content-between">
-            <span>Total (USD)</span>
-            <strong><?= $total*(85/100) ?></strong>
-          </li>
-        <?php else: ?>
-            <li class="list-group-item d-flex justify-content-between">
-              <span>Total (USD)</span>
-              <strong>$<?= $total ?></strong>
-            </li>
+	          <li class="list-group-item d-flex justify-content-between bg-light">
+	            <div class="text-success">
+	              <h6 class="my-0">Discount</h6>
+	              <small><?= explode(" ",$_GET['name'])[0];?></small>
+	            </div>
+	            <span class="text-success">-<?=$total*(15/100)  ?></span>
+	          </li>
+	          <li class="list-group-item d-flex justify-content-between">
+	            <span>Total (USD)</span>
+	            <strong><?= $total*(85/100) ?></strong>
+	          </li>
+	        <?php else: ?>
+	            <li class="list-group-item d-flex justify-content-between">
+	              <span>Total (USD)</span>
+	              <strong>$<?= $total ?></strong>
+	            </li>
           <?php endif; ?>
+				<?php endif; ?>
+					<?php 	if(explode(" ",$_GET['name'])[0]=="book"):
+						// echo explode(" ",$_POST['name'])[0];
+						$sql = ("select total from orderhistory where userid='$loginid' and type='book' order by orderdate desc LIMIT 1");
+						$chc = mysqli_query($conn, $sql);
+						if ($row=mysqli_fetch_array($chc))
+						$totl = intval($row['total']);
+						if($totl>=200):
+						 ?>
+						<li class="list-group-item d-flex justify-content-between bg-light">
+							<div class="text-success">
+								<h6 class="my-0">Discount</h6>
+								<small>OVER200</small>
+							</div>
+							<span class="text-success">-<?=$total*(10/100)  ?></span>
+						</li>
+						<li class="list-group-item d-flex justify-content-between">
+							<span>Total (USD)</span>
+							<strong><?= $total*(90/100) ?></strong>
+						</li>
+					<?php else: ?>
+							<li class="list-group-item d-flex justify-content-between">
+								<span>Total (USD)</span>
+								<strong>$<?= $total ?></strong>
+							</li>
+					<?php endif; ?>
+				<?php endif; ?>
+				<?php 	if(explode(" ",$_GET['name'])[0]=="bus"): ?>
+					<li class="list-group-item d-flex justify-content-between">
+						<span>Total (USD)</span>
+						<strong>$<?= $total ?></strong>
+					</li>
+			<?php endif; ?>
         </ul>
         <!-- Cart -->
 
         <!-- Promo code -->
-        <form class="card p-2">
+        <!-- <form class="card p-2">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
             <div class="input-group-append">
               <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
             </div>
           </div>
-        </form>
+        </form> -->
         <!-- Promo code -->
 
       </div>
@@ -441,6 +486,7 @@
         var orderid = "<?php echo $allIds; ?>";
         alert(orderid);
         var radios = document.getElementsByName('paymentMethod');
+				var type=<?php echo '"'.$_GET['type'].'"' ?>;
 var paymethod="";
 for (var i = 0, length = radios.length; i < length; i++)
 {
@@ -456,7 +502,7 @@ if (radios[i].checked)
        // alert(paymthod);
                     var queryString = "?name=" + firstn+" "+lastn ;
 
-              queryString +=  "&email=" + mail + "&address=" + address + "&paymethd=" + paymethod+"&totalpay=" +total+"&orderdetail="+orderdetail+"&orderid="+orderid;
+              queryString +=  "&email=" + mail + "&address=" + address + "&paymethd=" + paymethod+"&totalpay=" +total+"&orderdetail="+orderdetail+"&orderid="+orderid+"&type="+type;
             ajaxRequest.open("GET", "individual_checkout-ajax.php" + queryString, true);
               ajaxRequest.send(null);
            }

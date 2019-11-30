@@ -1,4 +1,13 @@
-<?php include("index.php"); ?>
+<?php include("index.php"); 
+
+
+if(isset($_SESSION['loginid'])){
+
+}
+else {
+	header("location: login.php");
+}
+ ?>
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>

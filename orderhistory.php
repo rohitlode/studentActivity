@@ -41,7 +41,7 @@ th, td {
 <body>
 <div class="form">
     <center>
-Order History
+<h3><b>Order History</b></h3>
 </center>
 </div>
 <?php

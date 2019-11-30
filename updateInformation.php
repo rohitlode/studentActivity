@@ -2,10 +2,17 @@
    include("config.php");
   include("index.php");
 
+if(isset($_SESSION['loginid'])){
+
+}
+else {
+	header("location: login.php");
+}
+
  header("Expires: Thu, 19 Nov 1981 08:52:00 GMT"); //Date in the past
  header("Cache-Control: no-store, no-cache, must-revalidate, post-check=0, pre-check=0"); //HTTP/1.1
 header("Pragma: no-cache");
-   session_start();
+
    $errorflag=true;
    $mypassword="";
    $cpassword="";
@@ -134,9 +141,9 @@ include('updateinformation.css');
 		<p></p>
 		<p style="display: block"><input type="checkbox" style="width:auto"name="changepass" value="good"/><label style="block:inline">Check the box to Change Password</label></P>
 		<p>Password</p>
-			<input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onchange="try{setCustomValidity('')}catch(e){}" oninvalid="setCustomValidity('password must have 1 numeric and 1aplha')" placeholder="Password" name = "password"/>
+			<input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onchange="try{setCustomValidity('')}catch(e){}" oninvalid="setCustomValidity('Password must contain one uppercase letter, one lowercase letter and a numeric value')" placeholder="Password" name = "password"/>
 		<p>Confirm Password</p>
-		<input type="text" placeholder="Confirm Password" id="confirm_password" name = "confirm_password" />
+		<input type="password" placeholder="Confirm Password" id="confirm_password" name = "confirm_password" />
         <button type = "submit">Update Details</button>
 
 		 <p class="messageerror"><?php echo $error; ?></p>

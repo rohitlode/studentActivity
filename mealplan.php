@@ -16,50 +16,38 @@ else {
 	<title>Student Activity Website</title>
 </head>
 <body style="margin: 0;padding: 0;font-family: sans-serif; height:100%; width:100%" class="purple-gradient">
-	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
-	  <!-- Brand -->
-	  <a class="navbar-brand" href="index.php"><i class="fas fa-gift"></i>&nbsp; Student Activity</a>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+  <!-- Brand -->
+  <a class="navbar-brand" href="main.php">&nbsp; Student Activity</a>
 
-	  <!-- Toggler/collapsibe Button -->
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
 
-	  <!-- Navbar links -->
-	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-	    <ul class="navbar-nav ml-auto">
-				<li class="nav-item dropdown">
-		        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		         Search
-		        </a>
-		        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-		          <a class="dropdown-item" href="people.php">People Details</a>
-		          <a class="dropdown-item" href="roommate.php">Rommate</a>
-		          <a class="dropdown-item" href="test.php">Events & Activities</a>
-		        </div>
-		      </li>
-				<li class="nav-item dropdown">
-	        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-	          Purchase
-	        </a>
-	        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-	          <a class="dropdown-item" href="mealplan.php">Meal Plan</a>
-	          <a class="dropdown-item" href="busTickets.php">Bus Tickets</a>
-	          <a class="dropdown-item" href="textbook.php">Textbooks</a>
-	        </div>
-	      </li>
-				<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						 Account
-						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-							<a class="dropdown-item" href="updateinformation.php">Details</a>
-							<a class="dropdown-item" href="logout.php">Logout</a>
-						</div>
-					</li>
-	    </ul>
-	  </div>
-	</nav>
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ml-auto">
+			<li class="nav-item active">
+			<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
+			</li>
+			<li class="nav-item">
+					<a class="nav-link" onclick="goToCheck(this)" href="#">Checkout</a>
+			</li>
+			<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					 Account
+					</a>
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+						<a class="dropdown-item" href="orderhistory.php">Order History</a>
+						<a class="dropdown-item" href="updateinformation.php">Details</a>
+						<a class="dropdown-item" href="contact.php">Contact Us</a>
+						<a class="dropdown-item" href="logout.php">Logout</a>
+					</div>
+				</li>
+    </ul>
+  </div>
+</nav>
 <!-- Section: Pricing table -->
 <section id="four" class="pricing-table align-items-center mt-4">
 
@@ -101,7 +89,7 @@ else {
             <!-- <li><span class="fa-li"><i class="fas fa-check"></i></span><strong>Unlimited</strong> Free Delivery</li>
             <li class="grey-text"><span class="fa-li"><i class="fas fa-times"></i></span>Rollover</li> -->
           </ul>
-          <a href="individual_checkout.php" id="<?=$row['id'] ?>" class="btn btn-block btn-purple z-depth-0 btn-rounded my-2">purchase</a>
+          <a href="#" id="<?=$row['id'] ?>" class="btn btn-block btn-purple z-depth-0 btn-rounded my-2">purchase</a>
         </div>
       </div>
     </div>
@@ -153,6 +141,9 @@ else {
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 <script type="text/javascript">
+function goToCheck(e){
+	window.location.href='individual_checkout.php?name=meal&type=meal';
+}
 $(document).ready(function(){
   $(".btn").click(function(e){
     e.preventDefault();
@@ -170,18 +161,15 @@ $(document).ready(function(){
       success: function(response){
         // console.log(response);
         if(response==type){
-          // $.ajax({
-          //   url: "individual_checkout.php",
-          //   method: "post",
-          //   data: {type: type, name: name},
-          //   success: function(response){
-          //     console.log(response);x
-              // $("html").html(response);
-              window.location.href = 'individual_checkout.php?name='+name+'&type='+type;
-        //   }
-        // });
-
+              window.location.href = 'individual_checkout.php?name='+type+'&type='+type;
           }
+				if(response=="Already"){
+					alert("Already in cart!");
+					window.location.href = 'individual_checkout.php?name='+type+'&type='+type;
+				}
+				if (response=="Present"){
+					alert("A Semester/ Month Plan is already added to the cart, You can either purchase Monthly/ Semester wise plan");
+				}
         }
       })
     })

@@ -1,5 +1,13 @@
 <?php
 include('index.php');
+
+if(isset($_SESSION['loginid'])){
+
+}
+else {
+	header("location: login.php");
+}
+
 ?>
 <!doctype html>
 <html lang="en">

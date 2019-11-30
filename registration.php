@@ -18,7 +18,7 @@
 	  $phone = mysqli_real_escape_string($db,$_POST['phone']);
 	  $email = mysqli_real_escape_string($db,$_POST['email']);
 	  $mypassword = mysqli_real_escape_string($db,$_POST['password']);
-	  $cpassword = mysqli_real_escape_string($db,$_POST['confirmpassword']);
+	  $cpassword = mysqli_real_escape_string($db,$_POST['confirm_password']);
 
 	validation();
 
@@ -55,20 +55,18 @@
    }
 
    function validation(){
-	    global $mypassword;
+	 global $mypassword;
 		 global $cpassword;
 		 global $errordept,$errorflag,$error;
 
-	   if (isset($mypassword)==isset($cpassword))
-	   {
-		$errorflag=false;
-	   }
-	   else{
-		 $errorflag=true;
-		  $error="Passwords do not match";
-		  $errorflag=true;
+if ($mypassword == $cpassword){
+$errorflag=faLSE;
+}
+else{
 
-	   }
+	$error= "Password and Confirm Password not matched ";
+	$errorflag=true;
+}
 
 	}
 
@@ -203,7 +201,15 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script>
+$('#password, #confirm_password').on('keyup', function () {
+	alert("sd");
+  if ($('#password').val() == $('#confirm_password').val()) {
+    $('#message').html('Matching').css('color', 'green');
+  } else
+    $('#message').html('Not Matching').css('color', 'red');
+})
 //$('.message a').click(function(){
   // $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 //});
@@ -225,9 +231,9 @@ body {
 			<option value="Data science">Data Science</option>
 		</select>
 		<input type="email"  placeholder="Email" name = "email" value="<?php echo isset($_POST["email"]) ? $_POST["email"] : ''; ?>"/>
-		<input type="password"  pattern="^(?=.*?[0-9]){8,}$" oninvalid="setCustomValidity('password must have 1 numeric and 1aplha')" placeholder="Password" name = "password" required/>
-		<input type="text" placeholder="Confirm Password" name = "confirmpassword" required/>
-
+		<input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onchange="try{setCustomValidity('')}catch(e){}" oninvalid="setCustomValidity('Password must contain one uppercase letter, one lowercase letter and a numeric value')"  placeholder="Password" name = "password" required/>
+		<input type="password" placeholder="Confirm Password" id="confirm_password" name = "confirm_password" required/>
+        <span id='message'></span>
         <button type = "submit">create</button>
         <p class="message">Already registered? <a href="login.php">Sign In</a></p>
 		<br/>

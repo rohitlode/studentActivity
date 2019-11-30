@@ -9,6 +9,7 @@ include("config.php");
     $currdate=date("Y/m/d H:i:s");
     $orderdetail = $_GET['orderdetail'];
     $orderid = $_GET['orderid'];
+    $type = $_GET['type'];
     $loginid = $_SESSION['loginid'];
     $id= array();
   //  $id = explode($orderid,",");
@@ -28,7 +29,7 @@ include("config.php");
     try{
 
 
-		   $sql = "insert into orderhistory(name, address, email, paymethod, orderdetail, orderdate, total, userid) values('$name','$address','$email','$paythod','$orderdetail','$currdate','$totalpay','$loginid')";
+		   $sql = "insert into orderhistory(name, address, email, paymethod, orderdetail, orderdate, total, userid,type) values('$name','$address','$email','$paythod','$orderdetail','$currdate','$totalpay','$loginid','$type')";
 
              $result = mysqli_query($db,$sql);
              $error = "success";

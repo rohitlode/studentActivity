@@ -1,4 +1,12 @@
-<?php include("index.php"); ?>
+<?php
+session_start();
+if(isset($_SESSION['loginid'])){
+
+}
+else {
+	header("location: login.php");
+}
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,6 +16,38 @@
 	<title>Student Activity Website</title>
 </head>
 <body class="aqua-gradient" style="font-family: sans-serif;">
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	  <!-- Brand -->
+	  <a class="navbar-brand" href="main.php">&nbsp; Student Activity</a>
+
+	  <!-- Toggler/collapsibe Button -->
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+
+	  <!-- Navbar links -->
+	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	    <ul class="navbar-nav ml-auto">
+				<li class="nav-item active">
+				<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+						<a class="nav-link" href="individual_checkout.php?name=book&type=book">Checkout</a>
+				</li>
+				<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						 Account
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="orderhistory.php">Order History</a>
+							<a class="dropdown-item" href="updateinformation.php">Details</a>
+							<a class="dropdown-item" href="contact.php">Contact Us</a>
+							<a class="dropdown-item" href="logout.php">Logout</a>
+						</div>
+					</li>
+	    </ul>
+	  </div>
+	</nav>
   <div class="container">
     <h4 class="text-center mt-2">Search for books here</h4>
     <div class="searchBox mt-10 justify-content-center">
@@ -52,16 +92,13 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Purchase</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+        <h5 class="modal-title" id="exampleModalLabel">Add to Cart</h5>
       </div>
       <div class="modal-body">
-        <p>You are just $50 away from earning 10% discount on your next order! Wanna purchase another book?</p>
+        <p>Item added! Want to continue shopping?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-success" data-dismiss="modal">Yes, Continue Shopping</button>
+        <button type="button" id="addToCrt" class="btn btn-success" data-dismiss="modal">Yes, Continue Shopping</button>
         <button type="button" id='purch' data-toggle="modal" data-target="" class="btn btn-danger">No! Pay Now</button>
       </div>
     </div>
@@ -186,6 +223,37 @@
 		$('#lendBookbtn').on('click', function(e) {
 
   // modal.hide();
+});
+$('#addToCrt').click(function(e){
+	alert("cliocmer");
+	console.log('ID is ', id);
+	// a =5;
+	// var b= $(this).closest(".card-footer");
+	console.log('#'+'book_title'+id);
+	var book_id = id;
+	var book_title = document.getElementById('book_title'+id).innerHTML;
+	var book_image = document.getElementById('book_image'+id).src;
+	var type="book";
+	var name="book";
+	console.log("book Id", book_id)
+	try{
+		var book_price = document.getElementById('book_price'+id).innerHTML;
+	}
+	catch(error){
+		book_price = 50;
+		console.error(error);
+	}
+	var book_isbn = document.getElementById('book_isbn'+id).innerHTML;
+
+	$.ajax({
+		url:'action.php',
+		method: 'POST',
+		data: {book_id:book_id, book_title:book_title, book_image:book_image, book_price:book_price, book_isbn:book_isbn,type:type},
+	success: function(response){
+		console.log("In Continue Shoppinh ",response);
+		// window.location.href = 'individual_checkout.php?name='+name+'&type='+type;
+	}
+	});
 });
     $('#purch').click(function(e){
       console.log('ID is ', id);

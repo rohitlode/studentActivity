@@ -78,13 +78,13 @@ if(isset($_GET['count'])=="cart_individual" && isset($_GET['type'])!=null){
 // Clear cart aprticular item
 	if(isset($_GET['remove'])){
 		$id = $_GET['remove'];
+		$type= $_GET['type'];
 		$stmt = $conn->prepare("delete from cart where id=?");
 		$stmt->bind_param('i', $id);
 		$stmt->execute();
-
 		$_SESSION['showAlert'] = 'block';
 		$_SESSION['message'] = 'Item removed from cart';
-		header('location: cart.php');
+		header('location: individual_checkout.php?name='.$type.'&type='.$type);
 	}
 
 	if(isset($_GET['clear-all'])){
@@ -256,7 +256,16 @@ if(isset($_GET['count'])=="cart_individual" && isset($_GET['type'])!=null){
 }
 // Meal Plan Purchase
 if(isset($_POST['type'])=="meal") {
-	echo "In meal Plan";
+	// echo "In meal Plan";
+	$check_mp = $conn->prepare("select * from cart where userid=? and product_name like 'Month%' or product_name like 'Semester%'");
+	$check_mp->bind_param("i",$loginid);
+	$check_mp->execute();
+	$check_mp->store_result();
+	$cnt = $check_mp->num_rows;
+	if ($cnt>0) {
+		echo "Present";
+	}
+	else{
 	$id = $_POST['id'];
 	$get_mp = $conn->prepare("select * from mealplan where id=?");
 	$get_mp->bind_param("i",$id);
@@ -286,7 +295,8 @@ if(isset($_POST['type'])=="meal") {
 		echo $type;
 }
 else{
-	echo "Already in the cart!!";
+	echo "Already";
+}
 }
 }
 
@@ -304,7 +314,7 @@ if(isset($_GET['start'])){
 	$e = $eventRes->get_result();
 	$div='';
 	while($event=$e->fetch_assoc()){
-			$div.=('<div class="card mt-2 mb-2 ml-2 mr-2" style="display:inline-block; ">
+			$div.=('<div class="card mt-2 mb-2 ml-2 mr-2" style="display:inline-block; float: left;">
 									<div class="view overlay">
 										<img src="" class="card-img-top" alt="">
 									</div>
@@ -339,7 +349,7 @@ if(isset($_POST['bustype'])){
 	$res->bind_param("si",$id,$loginid);
 	$res->execute();
 	$code = $res->get_result()->fetch_assoc()['product_code'];
-	echo $code;
+	// echo $code;
 	if(!$code){
 		$stmt = $conn->prepare("INSERT INTO cart (product_name, product_price, qty, total_price, product_code,type,userid) VALUES (?,?,?,?,?,?,?)");
 		$stmt->bind_param("ssisssi",$name,$price,$qty,$total,$id,$type,$loginid);
@@ -347,7 +357,7 @@ if(isset($_POST['bustype'])){
 		echo "success";
 	}
 	else{
-		echo "Already in cart";
+		echo "Already";
 	}
 }
 

@@ -16,7 +16,7 @@ else {
 <body>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
   <!-- Brand -->
-  <a class="navbar-brand" href="main.php"><i class="fas fa-gift"></i>&nbsp; Student Activity</a>
+  <a class="navbar-brand" href="main.php">&nbsp; Student Activity</a>
 
   <!-- Toggler/collapsibe Button -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -50,7 +50,7 @@ else {
 					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					 Account
 					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+					<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
 						<a class="dropdown-item" href="orderhistory.php">Order History</a>
 						<a class="dropdown-item" href="updateinformation.php">Details</a>
 						<a class="dropdown-item" href="contact.php">Contact Us</a>

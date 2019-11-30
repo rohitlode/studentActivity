@@ -1,4 +1,12 @@
-<?php include("index.php"); ?>
+<?php
+session_start();
+if(isset($_SESSION['loginid'])){
+
+}
+else {
+	header("location: login.php");
+}
+ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +15,38 @@
 	<title>Student Activity Website</title>
 </head>
 <body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+	  <!-- Brand -->
+	  <a class="navbar-brand" href="main.php">&nbsp; Student Activity</a>
+
+	  <!-- Toggler/collapsibe Button -->
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+	    <span class="navbar-toggler-icon"></span>
+	  </button>
+
+	  <!-- Navbar links -->
+	  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+	    <ul class="navbar-nav ml-auto">
+				<li class="nav-item active">
+				<a class="nav-link" href="main.php">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+						<a class="nav-link" href="individual_checkout.php?name=bus&type=Ticket">Checkout</a>
+				</li>
+				<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						 Account
+						</a>
+						<div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+							<a class="dropdown-item" href="orderhistory.php">Order History</a>
+							<a class="dropdown-item" href="updateinformation.php">Details</a>
+							<a class="dropdown-item" href="contact.php">Contact Us</a>
+							<a class="dropdown-item" href="logout.php">Logout</a>
+						</div>
+					</li>
+	    </ul>
+	  </div>
+	</nav>
   <div class="container">
     <h2 class="text-center"> <b>Welcome to student transport section </b></h2>
     <h3 class="text-center"> Choose your zone and purchase tickets </h3>
@@ -36,7 +76,7 @@
         <p class="id"hidden><?=$row['id']?></p>
         <p class="timings"><?=$row['timings']?></p>
         <p class="price"><b>Cost:</b> $<?=$row['price']?></p>
-        <p class="type"hidden>Month Card</p>
+        <p class="type"hidden>Ticket</p>
         <button type="button" class="btn btn-success addtocart" name="button">Add to Cart</button>
       </div>
     </div>
@@ -119,42 +159,13 @@
             if(response=="success"){
               window.location.href = "individual_checkout.php?name=bus&type="+bustype;
             }
+						if(response=="Already"){
+							alert("Already in cart");
+						//	window.location.href = "individual_checkout.php?name=bus&type="+bustype;
+						}
           }
         })
       });
-  		$(".addItemBtn").click(function(e){
-  			e.preventDefault();
-  			var $form = $(this).closest(".form-submit");
-  			var pid = $form.find(".pid").val();
-  			var pname = $form.find(".pname").val();
-  			var pprice = $form.find(".pprice").val();
-  			var pimage = $form.find(".pimage").val();
-  			var pcode = $form.find(".pcode").val();
-  			console.log("Sent");
-  			console.log(pname, pid);
-  			$.ajax({
-  				url: 'action.php',
-  				method: 'POST',
-  				data: {pid:pid, pname:pname, pprice:pprice, pimage:pimage, pcode:pcode},
-  				success: function(response){
-  					console.log("success");
-  					$("#message").html(response);
-  					update_cart();
-  					window.scrollTo(0,0);
-  				}
-  			});
-  		});
-  		update_cart();
-  		function update_cart(){
-  			$.ajax({
-  				url: 'action.php',
-  				method: 'GET',
-  				data: {counter: "cart_item"},
-  				success: function(response){
-  					$("#cart-item").html(response);
-  				}
-  			});
-  		}
   	})
   </script>
   </body>
