@@ -462,7 +462,7 @@ else {
                  if(ajaxRequest.readyState == 4){
                    // var ajaxDisplay = document.getElementById('ajaxDiv');
 // alert("fd");
-          alert("response"+ajaxRequest.responseText);
+          // alert("response"+ajaxRequest.responseText);
             if(ajaxRequest.responseText=="success"){
               // console.log("success",queryString);
                window.location.href="confirmation.php";
@@ -484,7 +484,7 @@ else {
         var total="<?php echo $total; ?>";
         var orderdetail = "<?php echo $allProducts; ?>";
         var orderid = "<?php echo $allIds; ?>";
-        alert(orderid);
+        // alert(orderid);
         var radios = document.getElementsByName('paymentMethod');
 				var type=<?php echo '"'.$_GET['type'].'"' ?>;
 var paymethod="";

@@ -90,7 +90,7 @@ include('roommate.css');
       </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
+<title>Student Activity Website</title>
 </head>
 <body>
   <nav class="navbar navbar-expand-md bg-dark navbar-dark">

@@ -257,7 +257,7 @@ if(isset($_GET['count'])=="cart_individual" && isset($_GET['type'])!=null){
 // Meal Plan Purchase
 if(isset($_POST['type'])=="meal") {
 	// echo "In meal Plan";
-	$check_mp = $conn->prepare("select * from cart where userid=? and product_name like 'Month%' or product_name like 'Semester%'");
+	$check_mp = $conn->prepare("select * from cart where userid=? and (product_name like 'Month%' or product_name like 'Semester%') and isPurchased=0");
 	$check_mp->bind_param("i",$loginid);
 	$check_mp->execute();
 	$check_mp->store_result();
@@ -277,7 +277,7 @@ if(isset($_POST['type'])=="meal") {
 	$qty = 1;
 	$total = $price*$qty;
 	$product_code = $mp['pcode'];
-	$res = $conn->prepare("select * from cart where product_code=? and userid=?");
+	$res = $conn->prepare("select * from cart where product_code=? and userid=? and isPurchased=0");
 	$res->bind_param("si",$product_code,$loginid);
 	$res->execute();
 	$code = $res->get_result()->fetch_assoc()['product_code'];
@@ -345,7 +345,7 @@ if(isset($_POST['bustype'])){
 	$total = $price*$qty;
 	$name = $id." ".$type;
 	// $id = $_POST['id'];
-	$res = $conn->prepare("select * from cart where product_code=? and userid=?");
+	$res = $conn->prepare("select * from cart where product_code=? and userid=? and isPurchased=0");
 	$res->bind_param("si",$id,$loginid);
 	$res->execute();
 	$code = $res->get_result()->fetch_assoc()['product_code'];
