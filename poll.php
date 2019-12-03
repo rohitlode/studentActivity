@@ -101,7 +101,7 @@ else {
         success: function(response){
           console.log("In poll ",response);
           $("#card-body").html(response);
-          $("#submit").replaceWith('<a class="btn btn-info" href="index.php">Back to Home</a>');
+          $("#submit").replaceWith('<a class="btn btn-info" href="main.php">Back to Home</a>');
           console.log("response");
         }
       });}
@@ -117,7 +117,7 @@ else {
         success: function(response){
           console.log(response);
           $("#card-body").html(response);
-          $("#submit").replaceWith('<a class="btn btn-info" href="index.php">Back to Home</a>');
+          $("#submit").replaceWith('<a class="btn btn-info" href="main.php">Back to Home</a>');
         }
       })
     });

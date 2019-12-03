@@ -213,7 +213,6 @@ if(isset($_GET['count'])=="cart_individual" && isset($_GET['type'])!=null){
 			$type = $_POST['type'];
 			echo $img;
 			echo $_POST['book_image'], $price,$price*$qty;
-
 			$stmt=$conn->prepare("insert into cart(product_name,product_price,product_image,qty,total_price,product_code,type,userid) values (?,?,?,?,?,?,?,?)");
 			$stmt->bind_param("sssisssi",$title, $price, $img, $qty, $total, $id,$type,$loginid);
 			$stmt->execute();

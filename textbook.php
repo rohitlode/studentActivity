@@ -225,7 +225,7 @@ else {
   // modal.hide();
 });
 $('#addToCrt').click(function(e){
-	alert("cliocmer");
+	// alert("cliocmer");
 	console.log('ID is ', id);
 	// a =5;
 	// var b= $(this).closest(".card-footer");

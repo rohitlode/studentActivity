@@ -145,6 +145,7 @@ else {
                 <select class="custom-select d-block w-100" id="state" required>
                   <option value="">Select...</option>
                   <option>California</option>
+									<option>Texas</option>
                 </select>
                 <div class="invalid-feedback">
                   Please provide a valid state.
@@ -304,7 +305,8 @@ else {
 						// echo explode(" ",$_POST['name'])[0];
 						$sql = ("select total from orderhistory where userid='$loginid' and type='book' order by orderdate desc LIMIT 1");
 						$chc = mysqli_query($conn, $sql);
-						if ($row=mysqli_fetch_array($chc))
+						// if ($row=mysqli_fetch_array($chc)):
+						$row=mysqli_fetch_array($chc);
 						$totl = intval($row['total']);
 						if($totl>=200):
 						 ?>
